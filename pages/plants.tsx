@@ -38,22 +38,18 @@ export default function Generators({ plants }: any) {
   const handleLoadData = async ({ target }: any) => {
     setLoading(true);
     const plantName = target.value;
-
-    const baseUrl = process.env.NEXT_PUBLIC_API || "http://127.0.0.1:5200";
-    const response = await fetch(
-      `${baseUrl}/api/plants/${plantName}/generation-types`,
-      {
-        referrerPolicy: "unsafe-url",
-      }
-    );
-    const loadData = await response.json();
+    try {
+      const response = await fetch(`/api/plants/${plantName}`);
+      var loadData = await response.json();
+    } catch (e) {
+      console.log(e)
+    }
 
     setSelectedPlant(plantName);
     const labels: string[] = loadData.map(
       (i: any) => `${i.name} (${i.value.toFixed(2)}%)`
     );
     const data: string[] = loadData.map((i: any) => i.value);
-
     const colors = generateRandomColors(data.length);
 
     //@ts-ignore
@@ -133,9 +129,7 @@ export default function Generators({ plants }: any) {
 
 export async function getStaticProps(context: any) {
   const baseUrl = process.env.NEXT_PUBLIC_API || "http://127.0.0.1:5200";
-  const response = await fetch(`${baseUrl}/api/plants`, {
-    referrerPolicy: "unsafe-url",
-  });
+  const response = await fetch(`${baseUrl}/api/plants`);
   const data = await response.json();
 
   return {
