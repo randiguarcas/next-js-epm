@@ -69,7 +69,9 @@ export default function Generators({ generators }: any) {
   const loadData = async () => {
     setLoading(true);
     const baseUrl = process.env.NEXT_PUBLIC_API || "http://127.0.0.1:5200";
-    const response = await fetch(`${baseUrl}/api/generation-types`);
+    const response = await fetch(`${baseUrl}/api/generation-types`, {
+      referrerPolicy: "unsafe-url",
+    });
     const loadData = await response.json();
 
     const { biogas, hydropower, solar, thermal, windpower } = loadData;
@@ -167,7 +169,9 @@ export default function Generators({ generators }: any) {
 
 export async function getStaticProps(context: any) {
   const baseUrl = process.env.NEXT_PUBLIC_API || "http://127.0.0.1:5200";
-  const response = await fetch(`${baseUrl}/api/generation-types`);
+  const response = await fetch(`${baseUrl}/api/generation-types`, {
+    referrerPolicy: "unsafe-url",
+  });
   const data = await response.json();
 
   return {

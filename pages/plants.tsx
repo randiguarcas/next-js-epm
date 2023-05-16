@@ -41,7 +41,10 @@ export default function Generators({ plants }: any) {
 
     const baseUrl = process.env.NEXT_PUBLIC_API || "http://127.0.0.1:5200";
     const response = await fetch(
-      `${baseUrl}/api/plants/${plantName}/generation-types`
+      `${baseUrl}/api/plants/${plantName}/generation-types`,
+      {
+        referrerPolicy: "unsafe-url",
+      }
     );
     const loadData = await response.json();
 
@@ -130,7 +133,9 @@ export default function Generators({ plants }: any) {
 
 export async function getStaticProps(context: any) {
   const baseUrl = process.env.NEXT_PUBLIC_API || "http://127.0.0.1:5200";
-  const response = await fetch(`${baseUrl}/api/plants`);
+  const response = await fetch(`${baseUrl}/api/plants`, {
+    referrerPolicy: "unsafe-url",
+  });
   const data = await response.json();
 
   return {
